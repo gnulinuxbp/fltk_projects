@@ -73,3 +73,9 @@ clean:
 install: all
 	mkdir -p $(INSTDIR)
 	cp -a $(TARGETS) $(INSTDIR)
+single:
+	@echo "Compilando individualmente $(APP)"
+	$(MAKE) $(foreach obj, $(wildcard $(APP)/*.cxx), $(obj:.cxx=.o)) 
+	$(CXX) -o $(APP)/$(APP) $(wildcard $(APP)/*.o) $(CXXFLAGS) $(LDFLAGS)
+	@if command -v sstrip >/dev/null 2>&1; then sstrip $(APP)/$(APP); fi
+	@echo "Binario listo"
